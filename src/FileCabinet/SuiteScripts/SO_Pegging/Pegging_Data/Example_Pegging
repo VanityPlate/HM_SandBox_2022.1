@@ -1,0 +1,14 @@
+{
+  "weeklyPI": {
+                "week1": {"itemIdx05": {"qtyPlanned":  5, "qtyPegged":  0, "soIds": []}},
+                "week2": {"itemIdx105": {"qtyPlanned":  10, "qtyPegged":  7, "SoIds": ["soIdx222", "soIdx111"]}}
+              },
+  "soPegging":  {
+                  "soIdx222": [{"item": "itemIdx105", "week": "week2", "qty": 3, "woId": "woIdx294", "complete": true}],
+                  "soIdx111": [{"item": "itemIdx105", "week": "week2", "qty": 7, "woId": "woIdx295", "complete": false}]
+  },
+  "totalS":   {
+                "itemIdx05":  {"qtyPlanned": 10, "qtyPegged": 7},
+                "itemIdx102": {"qtyPlanned": 5, "qtyPegged": 0}
+              }
+}

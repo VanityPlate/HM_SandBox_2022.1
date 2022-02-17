@@ -24,7 +24,7 @@ define(["N/file"],
             let contents = JSON.parse(loadedFile.getContents());
 
             //Initializing Variables
-            this.itemP = contents.itemP;
+            this.soPegging = contents.soPegging;
             this.weeklyPI = contents.weeklyPI;
             this.totalS = contents.totalS;
 
@@ -38,7 +38,7 @@ define(["N/file"],
              */
             let savePegging = (fileName,filePath) => {
                 try{
-                    let contents = {itemP: this.itemP, weeklyPI: this.weeklyPI, totalS: this.totalS};
+                    let contents = {soPegging: this.soPegging, weeklyPI: this.weeklyPI, totalS: this.totalS};
                     contents = JSON.stringify(contents);
                     file.save({
                         name: fileName,
@@ -74,17 +74,97 @@ define(["N/file"],
             };
 
             /**
-             * @description Takes in new pegging information (see peggingData for format), itemId and updates the
+             * @description Attaches a work order id to a relevant sales order returns true if successful false otherwise
+             * @param{int}woId
+             * @param{int}soId
+             * @param{int}itemId
+             * @param{date}week
+             * @return{boolean}
+             */
+            let pegWorkOrder = (woId, soId, itemId, week) => {
+                try{
+                    let outPut = false;
+                    let index = 0;
+                    this.soPegging[soId].forEach((result) =>{
+                        index++;
+                        if(result.itemId == itemId && result.week == week){
+                            if(result.woId == null) {
+                                this.soPegging[soId][index].woId = woId;
+                                outPut = true
+                                return false;
+                            }
+                            else{
+                                return false;
+                            }
+                        }
+                        else{
+                            return true;
+                        }
+                    });
+                    return outPut;
+                }
+                catch (e) {
+                    log.error({title: 'Critical error in pegWorkOrder', details: e});
+                    throw "Critical error in pegWorkOrder: " + e;
+                }
+            }
+
+            /**
+             * @description Marks a work order as complete.
+             * @param{int}woId
+             * @param{int}soId
+             * @param{int}itemId
+             */
+            let completeWorkOrder = (woId, soId, itemId) => {
+                try{
+                    let index = 0;
+                    this.soPegging[soId].forEach((result) => {
+                        index++
+                        if(result.itemId == itemId && result.woId == woId){
+                            this.soPegging[soId][index].complete = true;
+                            return false;
+                        }
+                        else {
+                            return true;
+                        }
+                    });
+                }
+                catch (e) {
+                    log.error({title: 'Critical error in completeWorkOrder', details: e});
+                    throw "Critical error in completeWorkOrder: " + e;
+                }
+            }
+
+            /**
+             * @description Takes in new pegging information, itemId and updates the
              * pegging information. Validating it is a legal new peg.
              * Returning true if successful false otherwise.
              *
-             * @param{Object} updateData {itemId: int, saleOrders: [{soId: int, qty: int, week: date}......]}
-             * @param{Int} itemId
+             * @param{Object} updateData {itemId: int, week: date, soId: int, qty: int}
+             * @param{int}itemId
+             * @param{date}week
+             * @param{int}soId
+             * @param{int}qty
              * @return boolean
              */
-            let pegOrders = (updateData, itemId) => {
+            let pegOrders = (itemId, week, soId, qty) => {
                 try {
-
+                    if(this.weeklyPI[week][itemId].qtyPlanned-this.weeklyPI[week][itemId].qtyPegged >= qty){
+                        //Checking if SO is already included
+                        if(this.soPegging[soId] == null){
+                            this.soPegging[soId] = [];
+                        }
+                        this.soPegging.push({"itemid": itemId, "qty": qty, "week": week, "woId": null, "complete": false});
+                        this.totalS[itemId].qtyPegged += qty;
+                        this.weeklyPI[week].qtyPegged += qty;
+                        if(this.weeklyPI[week][itemId].soIds.indexOf(soId) === -1){
+                            this.weeklyPI[week][itemId].soIds.push(soId);
+                        }
+                        return true;
+                    }
+                    else{
+                        return false; //New pegging canceled
+                    }
                 } catch (e) {
                     log.error({title: 'Critical error in pegOrders', details: e});
                     throw "Critical error in pegOrders: " + e;
@@ -92,15 +172,14 @@ define(["N/file"],
             };
 
             /**
-             * @description Takes in two HM JSON pegging data objects and returns an object detailing the differences
-             * between the two. Assumes peggingData1 to be the earlier data and the peggingData2 to be the current data.
+             * @description Takes in HM JSON pegging data objects and returns an object detailing the differences
+             * between the two. Assumes peggingData2 to be the earlier data and the native data to be the current data.
              * See return for output format.
              *
-             * @param{Object} peggingData1
              * @param{Object} peggingData2
-             * @return {Object} {itemId: {newOrders: [soId], canceledOrders: [soId], lateOrders: [soId], supplyChange: int}......}
+             * @return {Object} {itemId: {newOrders: [soId], canceledOrders: [soId], supplyChange: int}......}
              */
-            let compileChanges = (peggingData1, peggingData2) => {
+            let compileChanges = (peggingData2) => {
                 try {
 
                 } catch (e) {
@@ -108,6 +187,8 @@ define(["N/file"],
                     throw "Critical error in compileChanges: " + e;
                 }
             };
+
+
 
             /**
              * @description Updates the HM JSON pegged orders object total supply for a given item,
@@ -129,24 +210,6 @@ define(["N/file"],
                 }
             };
 
-            /**
-             * @description Updates quantities and status on a Sales Order. Managing the larger HM JSON pegged data
-             * object at the same time. Returns true if successful and false if failed.
-             *
-             * @param{Object} updates {workId: int, qty: int, week: date, dropper: boolean, complete: boolean}
-             * @param{int} soId
-             * @param{int} item
-             * @param{Object} peggedOrders
-             * @return{boolean}
-             */
-            let updateOrder = (updates, soId, item, peggedOrders) => {
-                try {
-
-                } catch (e) {
-                    log.error({title: 'Critical error in updateOrder', details: e});
-                    throw "Critical error in updateOrder: " + e;
-                }
-            };
 
             /**
              * @description Un-pegs a sales order from HM JSON pegged orders object. Manages data wide updates
@@ -206,6 +269,7 @@ define(["N/file"],
                         let item = result.getValue({name: 'item'});
                         weeklyPI[result.getValue({name: "demanddate"})][item] = qty;
                         totalS[item] =+ qty;
+                        return true;
                     });
                 }
                 objectOut.weeklyPI = weeklyPI;
