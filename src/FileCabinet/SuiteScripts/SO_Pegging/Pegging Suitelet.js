@@ -18,6 +18,23 @@ define(['N/ui/serverWidget'],
         let renderForm = () => {
             try{
                 let form = serverWidget.createForm({title: 'Peg Orders'});
+                form.clientScriptModulePath = './Pegging Suitelet.js';
+                form.addButton({
+                   id: 'custpage_push_updates',
+                   label: 'Push Updates',
+                   functionName: 'pushUpdates'
+                });
+                form.addField({
+                    id: 'custpage_select_assembly',
+                    label: 'Select Assembly',
+                    type: serverWidget.FieldType.SELECT,
+                    source: 'assemblies'
+                });
+                form.addSublist({
+                    id: 'custpage_orders_to_peg',
+                    label: 'Orders',
+                    type: serverWidget.SublistType.LIST
+                });
                 return form;
             }
             catch (e) {
