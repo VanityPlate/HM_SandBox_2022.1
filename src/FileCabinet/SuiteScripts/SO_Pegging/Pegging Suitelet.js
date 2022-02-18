@@ -18,7 +18,7 @@ define(['N/ui/serverWidget'],
         let renderForm = () => {
             try{
                 let form = serverWidget.createForm({title: 'Peg Orders'});
-                form.clientScriptModulePath = './Pegging Suitelet.js';
+                form.clientScriptModulePath = './Pegging Suitelet CS.js';
                 form.addButton({
                    id: 'custpage_push_updates',
                    label: 'Push Updates',
