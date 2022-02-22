@@ -40,7 +40,7 @@ define(['N/search', 'N/render', 'N/email', 'N/record', '/SuiteScripts/Help_Scrip
         let convertPO = (po) => {
             try{
                 let convertedPO = record.create({
-                    type: record.type.PURCHASE_ORDER,
+                    type: record.Type.PURCHASE_ORDER,
                     isDynamic: true
                 });
                 convertedPO.setValue({fieldId: 'entity', value: po.getValue({fieldId: 'entity'})});
@@ -70,6 +70,8 @@ define(['N/search', 'N/render', 'N/email', 'N/record', '/SuiteScripts/Help_Scrip
          */
         let emailPO = (poId, vendor) =>{
             try{
+                //Refactor Testing
+                log.audit({title: 'Test vendor', details: vendor});
                 let emailMerge = render.mergeEmail({
                     templateId: EMAIL_TEMPLATE,
                     transactionId: poId,
@@ -121,7 +123,8 @@ define(['N/search', 'N/render', 'N/email', 'N/record', '/SuiteScripts/Help_Scrip
                 //Testing if po needs refactoring if so creates new po and deletes the old
                 if(isInternational){
                     poToEmail = convertPO(dropShip);
-                    deleteRecord(params);
+                    //Refactor Testing
+                    //deleteRecord(params);
                 }
                 //Emails po to vendor requesting reply to receipt
                 emailPO(poToEmail, vendor);
