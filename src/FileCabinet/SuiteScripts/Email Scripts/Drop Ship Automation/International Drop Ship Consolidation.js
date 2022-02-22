@@ -6,9 +6,9 @@
  * @NApiVersion 2.1
  * @NScriptType MassUpdateScript
  */
-define(['N/render', 'N/email', 'N/record', '/SuiteScripts/Help_Scripts/Email_Library.js'],
+define(['N/search', 'N/render', 'N/email', 'N/record', '/SuiteScripts/Help_Scripts/Email_Library.js'],
     
-    (render, email, record, emailLib) => {
+    (search, render, email, record, emailLib) => {
 
         /**
          * Constants
