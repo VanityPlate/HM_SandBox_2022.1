@@ -70,11 +70,13 @@ define(['N/search', 'N/render', 'N/email', 'N/record', '/SuiteScripts/Help_Scrip
          */
         let emailPO = (poId, vendor) =>{
             try{
+                //Refactor Testing
+                log.audit({title: 'Test vendor', details: vendor});
                 let emailMerge = render.mergeEmail({
                     templateId: EMAIL_TEMPLATE,
                     transactionId: poId,
                     entity: {type: 'employee', id: PURCHASER},
-                    recipient: null, //Refactor Testing
+                    recipient: {type: 'vendor', id: vendor},
                     customRecord: null,
                     supportCaseId: null
                 });
@@ -114,8 +116,6 @@ define(['N/search', 'N/render', 'N/email', 'N/record', '/SuiteScripts/Help_Scrip
                 });
                 let customer = dropShip.getValue({fieldId: 'shipto'});
                 let vendor = dropShip.getValue({fieldId: 'entity'});
-                //Refactor Testing
-                log.audit({title: 'Test vendor', details: vendor});
                 let isInternational = search.lookupFields({id: customer, type: search.Type.CUSTOMER, columns: "custentity_international_customer"});
                 isInternational = isInternational.custentity_international_customer;
                 //Refactor Testing
