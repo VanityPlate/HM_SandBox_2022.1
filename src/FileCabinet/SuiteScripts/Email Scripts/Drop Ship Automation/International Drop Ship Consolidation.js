@@ -76,7 +76,7 @@ define(['N/search', 'N/render', 'N/email', 'N/record', '/SuiteScripts/Help_Scrip
                     templateId: EMAIL_TEMPLATE,
                     transactionId: poId,
                     entity: {type: 'employee', id: PURCHASER},
-                    recipient: {type: 'vendor', id: 10667}, //Refactor Testing
+                    recipient: {type: 'vendor', id: vendor},
                     customRecord: null,
                     supportCaseId: null
                 });
@@ -87,7 +87,7 @@ define(['N/search', 'N/render', 'N/email', 'N/record', '/SuiteScripts/Help_Scrip
                 email.send({
                     author: PURCHASER,
                     body: emailMerge.body,
-                    recipients: 10667, //Refactor Testing
+                    recipients: vendor,
                     subject: emailMerge.subject,
                     attachments: [recordPDF]
                 });
@@ -115,7 +115,7 @@ define(['N/search', 'N/render', 'N/email', 'N/record', '/SuiteScripts/Help_Scrip
                     isDynamic: false
                 });
                 let customer = dropShip.getValue({fieldId: 'shipto'});
-                let vendor = dropShip.getValue({fieldId: 'entity'});
+                let vendor = parseInt(dropShip.getValue({fieldId: 'entity'}), 0);
                 let isInternational = search.lookupFields({id: customer, type: search.Type.CUSTOMER, columns: "custentity_international_customer"});
                 isInternational = isInternational.custentity_international_customer;
                 //Refactor Testing
