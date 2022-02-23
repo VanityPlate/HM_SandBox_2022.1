@@ -76,7 +76,7 @@ define(['N/search', 'N/render', 'N/email', 'N/record', '/SuiteScripts/Help_Scrip
                     templateId: EMAIL_TEMPLATE,
                     transactionId: poId,
                     entity: {type: 'employee', id: PURCHASER},
-                    recipient: {type: 'vendor', id: vendor},
+                    recipient: {type: 'vendor', id: 10667}, //Refactor Testing
                     customRecord: null,
                     supportCaseId: null
                 });
@@ -87,7 +87,7 @@ define(['N/search', 'N/render', 'N/email', 'N/record', '/SuiteScripts/Help_Scrip
                 email.send({
                     author: PURCHASER,
                     body: emailMerge.body,
-                    recipient: vendor,
+                    recipient: 10667, //Refactor Testing
                     subject: emailMerge.subject,
                     attachments: [recordPDF]
                 });
