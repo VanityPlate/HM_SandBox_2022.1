@@ -87,7 +87,7 @@ define(['N/search', 'N/render', 'N/email', 'N/record', '/SuiteScripts/Help_Scrip
                 email.send({
                     author: PURCHASER,
                     body: emailMerge.body,
-                    recipient: 10667, //Refactor Testing
+                    recipients: 10667, //Refactor Testing
                     subject: emailMerge.subject,
                     attachments: [recordPDF]
                 });
