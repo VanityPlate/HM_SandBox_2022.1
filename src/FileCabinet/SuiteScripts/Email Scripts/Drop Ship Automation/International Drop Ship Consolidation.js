@@ -71,8 +71,6 @@ define(['N/search', 'N/render', 'N/email', 'N/record', '/SuiteScripts/Help_Scrip
          */
         let emailPO = (poId, vendor) =>{
             try{
-                //Refactor Testing
-                log.audit({title: 'Test vendor', details: vendor});
                 let emailMerge = render.mergeEmail({
                     templateId: EMAIL_TEMPLATE,
                     transactionId: poId,
@@ -106,25 +104,15 @@ define(['N/search', 'N/render', 'N/email', 'N/record', '/SuiteScripts/Help_Scrip
          */
         let updateSO = (soId, poId, originalPoId) => {
             try{
-                //Refactor Testing
-                log.audit({title: 'UpdateSO', details: 'entered'});
                 let soRecord = record.load({
                    type: record.Type.SALES_ORDER,
                    id: soId,
                    isDynamic: false
                 });
                 let lines = soRecord.getLineCount({sublistId: 'item'});
-                //Refactor Testing
-                log.audit({title: 'lineCount', details: lines});
                 for(let x = 0; x < lines; x++){
-                    //Refactor Testing
-                    log.audit({title: 'loop iteration', details: x});
                     if(originalPoId == soRecord.getSublistValue({sublistId: 'item', fieldId: 'poid', line: x})){
-                        //Refactor Testing
-                        log.audit({title: 'instance found', details: x});
-                        soRecord.setSublistValue({sublistId: 'item', fieldId: 'createpo', line: x, value: null});
-                        soRecord.setSublistValue({sublistId: 'item', fieldId: 'createpo', line: x, value: 'DropShip'});
-                        soRecord.setSublistValue({sublistId: 'item', fieldId: 'createdpo', line: x, value: poId});
+                        soRecord.setSublistValue({sublistId: 'item', fieldId: 'custcol_linked_po_wo', line: x, value: poId});
                     }
                 }
                 soRecord.save();
@@ -156,14 +144,11 @@ define(['N/search', 'N/render', 'N/email', 'N/record', '/SuiteScripts/Help_Scrip
                 let vendor = parseInt(dropShip.getValue({fieldId: 'entity'}), 0);
                 let isInternational = search.lookupFields({id: customer, type: search.Type.CUSTOMER, columns: "custentity_international_customer"});
                 isInternational = isInternational.custentity_international_customer;
-                //Refactor Testing
-                log.audit({title: 'Is international', details: isInternational});
                 //Testing if po needs refactoring if so creates new po and deletes the old
                 if(isInternational){
                     poToEmail = convertPO(dropShip);
                     updateSO(createdFrom, poToEmail, params.id);
-                    //Refactor Testing
-                    //deleteRecord(params);
+                    deleteRecord(params);
                 }
                 //Emails po to vendor requesting reply to receipt
                 emailPO(poToEmail, vendor);
