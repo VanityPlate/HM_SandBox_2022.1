@@ -123,7 +123,7 @@ define(['N/search', 'N/render', 'N/email', 'N/record', '/SuiteScripts/Help_Scrip
                         //Refactor Testing
                         log.audit({title: 'instance found', details: x});
                         soRecord.selectLine({sublistId: 'item', line: x});
-                        soRecord.setCurrentSublistValue({sublistId: 'item', fieldId: 'poid', value: poId});
+                        soRecord.setCurrentSublistValue({sublistId: 'item', fieldId: 'createdpo', value: poId});
                         soRecord.commitLine({sublistId: 'item'});
                     }
                 }
