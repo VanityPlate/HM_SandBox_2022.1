@@ -111,7 +111,7 @@ define(['N/search', 'N/render', 'N/email', 'N/record', '/SuiteScripts/Help_Scrip
                 let soRecord = record.load({
                    type: record.Type.SALES_ORDER,
                    id: soId,
-                   isDynamic: true
+                   isDynamic: false
                 });
                 let lines = soRecord.getLineCount({sublistId: 'item'});
                 //Refactor Testing
@@ -122,9 +122,9 @@ define(['N/search', 'N/render', 'N/email', 'N/record', '/SuiteScripts/Help_Scrip
                     if(originalPoId == soRecord.getSublistValue({sublistId: 'item', fieldId: 'poid', line: x})){
                         //Refactor Testing
                         log.audit({title: 'instance found', details: x});
-                        soRecord.selectLine({sublistId: 'item', line: x});
-                        soRecord.setCurrentSublistValue({sublistId: 'item', fieldId: 'createdpo', value: poId});
-                        soRecord.commitLine({sublistId: 'item'});
+                        soRecord.setSublistValue({sublistId: 'item', fieldId: 'createpo', line: x, value: null});
+                        soRecord.setSublistValue({sublistId: 'item', fieldId: 'createpo', line: x, value: 'DropShip'});
+                        soRecord.setSublistValue({sublistId: 'item', fieldId: 'createdpo', line: x, value: poId});
                     }
                 }
                 soRecord.save();
