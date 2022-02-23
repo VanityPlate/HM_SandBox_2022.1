@@ -113,7 +113,11 @@ define(['N/search', 'N/render', 'N/email', 'N/record', '/SuiteScripts/Help_Scrip
                 });
                 let lines = soRecord.getLineCount({sublistId: 'item'});
                 for(let x = 0; x < lines; x++){
-                    if(originalPoId = soRecord.getSublistValue({sublistId: 'item', fieldId: 'poid', line: x})){
+                    //Refactor Testing
+                    log.audit({title: 'loop iteration', details: x});
+                    if(originalPoId == soRecord.getSublistValue({sublistId: 'item', fieldId: 'poid', line: x})){
+                        //Refactor Testing
+                        log.audit({title: 'instance found', details: x});
                         soRecord.selectLine({sublistId: 'item', line: x});
                         soRecord.setCurrentSublistValue({sublistId: 'item', fieldId: 'poid', value: poId});
                         soRecord.commitLine({sublistId: 'item'});
