@@ -106,12 +106,16 @@ define(['N/search', 'N/render', 'N/email', 'N/record', '/SuiteScripts/Help_Scrip
          */
         let updateSO = (soId, poId, originalPoId) => {
             try{
+                //Refactor Testing
+                log.audit({title: 'UpdateSO', details: 'entered'});
                 let soRecord = record.load({
                    type: record.Type.SALES_ORDER,
                    id: soId,
                    isDynamic: true
                 });
                 let lines = soRecord.getLineCount({sublistId: 'item'});
+                //Refactor Testing
+                log.audit({title: 'lineCount', details: lines});
                 for(let x = 0; x < lines; x++){
                     //Refactor Testing
                     log.audit({title: 'loop iteration', details: x});
@@ -147,7 +151,7 @@ define(['N/search', 'N/render', 'N/email', 'N/record', '/SuiteScripts/Help_Scrip
                     type: params.type,
                     isDynamic: false
                 });
-                let createdFrom = dropShip.getValue({fieldId: 'createdfrom'});
+                let createdFrom = parseInt(dropShip.getValue({fieldId: 'createdfrom'}), 0);
                 let customer = dropShip.getValue({fieldId: 'shipto'});
                 let vendor = parseInt(dropShip.getValue({fieldId: 'entity'}), 0);
                 let isInternational = search.lookupFields({id: customer, type: search.Type.CUSTOMER, columns: "custentity_international_customer"});
