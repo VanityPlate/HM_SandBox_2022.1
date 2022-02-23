@@ -119,6 +119,7 @@ define(['N/search', 'N/render', 'N/email', 'N/record', '/SuiteScripts/Help_Scrip
                         soRecord.commitLine({sublistId: 'item'});
                     }
                 }
+                soRecord.save();
             }
             catch (e) {
                 log.error({title: 'Critical error in updateSO', details: e});
