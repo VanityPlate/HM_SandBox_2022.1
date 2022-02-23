@@ -157,7 +157,7 @@ define(['N/search', 'N/render', 'N/email', 'N/record', '/SuiteScripts/Help_Scrip
                 //Testing if po needs refactoring if so creates new po and deletes the old
                 if(isInternational){
                     poToEmail = convertPO(dropShip);
-                    updateSO = (poToEmail, createdFrom, params.id);
+                    updateSO = (createdFrom, poToEmail, params.id);
                     //Refactor Testing
                     //deleteRecord(params);
                 }
