@@ -47,6 +47,7 @@ define(['N/search', 'N/render', 'N/email', 'N/record', '/SuiteScripts/Help_Scrip
                 convertedPO.setValue({fieldId: 'shipdate', value: po.getValue({fieldId: 'shipdate'})});
                 convertedPO.setValue({fieldId: 'shipmethod', value: po.getValue({fieldId: 'shipmethod'})});
                 convertedPO.setValue({fieldId: 'custbody_shipping_payment_method', value: po.getValue({fieldId: 'custbody_shipping_payment_method'})});
+                convertedPO.setValue({fieldId: 'employee', value: PURCHASER});
                 let lines = po.getLineCount({sublistId: 'item'});
                 for(let x = 0; x < lines; x++){
                     convertedPO.selectNewLine({sublistId: 'item'});
@@ -97,6 +98,33 @@ define(['N/search', 'N/render', 'N/email', 'N/record', '/SuiteScripts/Help_Scrip
             }
         }
 
+        /**
+         * Updates the line items on sale orders to reflect changed purchase order
+         * @param{int}soId
+         * @param{int}poId
+         * @param{int}originalPoId
+         */
+        let updateSO = (soId, poId, originalPoId) => {
+            try{
+                let soRecord = record.load({
+                   type: record.Type.SALES_ORDER,
+                   id: soId,
+                   isDynamic: true
+                });
+                let lines = soRecord.getLineCount({sublistId: 'item'});
+                for(let x = 0; x < lines; x++){
+                    if(originalPoId = soRecord.getSublistValue({sublistId: 'item', fieldId: 'poid', line: x})){
+                        soRecord.selectLine({sublistId: 'item', line: x});
+                        soRecord.setCurrentSublistValue({sublistId: 'item', fieldId: 'poid', value: poId});
+                        soRecord.commitLine({sublistId: 'item'});
+                    }
+                }
+            }
+            catch (e) {
+                log.error({title: 'Critical error in updateSO', details: e});
+            }
+        }
+
 
         /**
          * Defines the Mass Update trigger point.
@@ -114,6 +142,7 @@ define(['N/search', 'N/render', 'N/email', 'N/record', '/SuiteScripts/Help_Scrip
                     type: params.type,
                     isDynamic: false
                 });
+                let createdFrom = dropShip.getValue({fieldId: 'createdfrom'});
                 let customer = dropShip.getValue({fieldId: 'shipto'});
                 let vendor = parseInt(dropShip.getValue({fieldId: 'entity'}), 0);
                 let isInternational = search.lookupFields({id: customer, type: search.Type.CUSTOMER, columns: "custentity_international_customer"});
@@ -123,6 +152,7 @@ define(['N/search', 'N/render', 'N/email', 'N/record', '/SuiteScripts/Help_Scrip
                 //Testing if po needs refactoring if so creates new po and deletes the old
                 if(isInternational){
                     poToEmail = convertPO(dropShip);
+                    updateSO = (poToEmail, createdFrom, params.id);
                     //Refactor Testing
                     //deleteRecord(params);
                 }
