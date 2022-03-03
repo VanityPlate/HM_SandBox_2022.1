@@ -28,12 +28,48 @@ define(['N/ui/serverWidget'],
                     id: 'custpage_select_assembly',
                     label: 'Select Assembly',
                     type: serverWidget.FieldType.SELECT,
-                    source: 'assemblies'
+                    source: 'item'
                 });
-                form.addSublist({
+                let list = form.addSublist({
                     id: 'custpage_orders_to_peg',
                     label: 'Orders',
                     type: serverWidget.SublistType.LIST
+                });
+                let urlFieldSO = list.addField({
+                        id: 'custpage_sourl',
+                        type: serverWidget.FieldType.TEXT,
+                        label: 'SO#'
+                    });
+                urlField.linkText = 'View';
+                list.addField({
+                    id: 'custpage_customerurl',
+                    type: serverWidget.FieldType.TEXT,
+                    label: 'Customer'
+                });
+                list.addField({
+                    id: 'custpage_date',
+                    type: serverWidget.FieldType.DATE,
+                    label: 'Date'
+                });
+                list.addField({
+                    id: 'custpage_machine',
+                    type: serverWidget.FieldType.TEXT,
+                    label: 'Machine'
+                });
+                list.addField({
+                    id: 'custpage_quantity',
+                    type: serverWidget.FieldType.INTEGER,
+                    label: 'Quantity'
+                });
+                list.addField({
+                    id: 'custpage_quantity_pegged',
+                    type: serverWidget.FieldType.INTEGER,
+                    label: 'Quantity Pegged'
+                });
+                list.addField({
+                    id: 'custpage_add_to_peg',
+                    type: serverWidget.FieldType.INTEGER,
+                    label: 'Peg Units'
                 });
                 return form;
             }
