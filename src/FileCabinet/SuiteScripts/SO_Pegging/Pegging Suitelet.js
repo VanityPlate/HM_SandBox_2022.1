@@ -40,7 +40,7 @@ define(['N/ui/serverWidget'],
                         type: serverWidget.FieldType.TEXT,
                         label: 'SO#'
                     });
-                urlField.linkText = 'View';
+                urlFieldSO.linkText = 'View';
                 list.addField({
                     id: 'custpage_customerurl',
                     type: serverWidget.FieldType.TEXT,
