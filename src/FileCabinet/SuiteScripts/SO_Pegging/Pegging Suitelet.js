@@ -37,7 +37,7 @@ define(['N/ui/serverWidget'],
                 });
                 let urlFieldSO = list.addField({
                         id: 'custpage_sourl',
-                        type: serverWidget.FieldType.TEXT,
+                        type: serverWidget.FieldType.URL,
                         label: 'SO#'
                     });
                 urlFieldSO.linkText = 'View';
