@@ -42,7 +42,7 @@ function(currentRecord, search, sAlert) {
                     [
                         ["type","anyof","SalesOrd"],
                         "AND",
-                        ["item","anyof","26881"],
+                        ["item","anyof", itemCurrent],
                         "AND",
                         ["formulanumeric: {quantity}-{quantitypacked}","greaterthan","0"]
                     ],
@@ -84,7 +84,7 @@ function(currentRecord, search, sAlert) {
             let recordObject = currentRecord.get();
             let lines = recordObject.getLineCount({sublistId: 'custpage_orders_to_peg'});
             for(let x = lines -1; x >= 0; x--){
-                recordObject.removeLine({sublistId: 'custpage_orders_to_peg', line: x, ignoreRecalc: true});
+                recordObject.removeLine({sublistId: 'custpage_orders_to_peg', line: x, ignoreFieldChange: true});
             }
         }
         catch (e) {
