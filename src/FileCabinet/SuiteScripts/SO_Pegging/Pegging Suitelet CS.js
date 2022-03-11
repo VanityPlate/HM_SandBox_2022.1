@@ -26,7 +26,7 @@ function(currentRecord, search, sAlert) {
             return true;
         }
         catch (e) {
-            log.error({title: 'Critical error in pushUpdates', details: e});
+            console.log(e);
         }
     }
 
@@ -71,7 +71,7 @@ function(currentRecord, search, sAlert) {
                 recordObject.setCurrentSublistValue({sublistId: 'custpage_orders_to_peg', fieldId: 'custpage_quantity', value: lineInfo.getValue({name: 'formulanumeric'})});
             }
         } catch (e) {
-            log.error({title: 'Critical error in setLines', details: e});
+            console.log(e);
         }
     }
 
@@ -87,7 +87,7 @@ function(currentRecord, search, sAlert) {
             }
         }
         catch (e) {
-            log.error({title: 'Critical error in clearLines', details: e});
+            console.log(e);
         }
     }
 
@@ -128,7 +128,7 @@ function(currentRecord, search, sAlert) {
             });
         }
         catch (e) {
-            log.error({title: 'Critical error in clearLines', details: e});
+            console.log(e);
         }
     }
 
@@ -146,7 +146,7 @@ function(currentRecord, search, sAlert) {
 
         }
         catch (e) {
-            log.error({title: 'Critical error in pageInit', details: e});
+            console.log(e);
         }
     }
 
@@ -188,7 +188,7 @@ function(currentRecord, search, sAlert) {
             }
         }
         catch (e) {
-            log.error({title: 'Critical error in postSourcing', details: e});
+            console.log(e);
         }
     }
 
