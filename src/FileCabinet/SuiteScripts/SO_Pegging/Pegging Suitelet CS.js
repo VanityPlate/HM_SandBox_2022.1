@@ -167,12 +167,12 @@ function(currentRecord, search, sAlert) {
             //Refactor Testing
             console.log('fieldChanged');
             if(scriptContext.fieldId == 'custpage_select_assembly' && itemCurrent == null){
-                checkUserRequest();
-            }
-            else if(scriptContext.fieldId = 'custpage_select_assembly'){
                 itemCurrent = scriptContext.currentRecord.getValue({fieldId: 'custpage_select_assembly'});
                 clearLines();
                 setLines();
+            }
+            else if(scriptContext.fieldId = 'custpage_select_assembly'){
+                checkUserRequest();
             }
         }
         catch (e) {

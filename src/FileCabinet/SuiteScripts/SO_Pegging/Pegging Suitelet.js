@@ -63,7 +63,7 @@ define(['N/ui/serverWidget'],
                 });
                 list.addField({
                     id: 'custpage_date',
-                    type: serverWidget.FieldType.DATE,
+                    type: serverWidget.FieldType.TEXT,
                     label: 'Date'
                 });
                 list.addField({
