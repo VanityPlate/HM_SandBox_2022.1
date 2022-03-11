@@ -43,7 +43,7 @@ define(['N/ui/serverWidget'],
                 let list = form.addSublist({
                     id: 'custpage_orders_to_peg',
                     label: 'Orders',
-                    type: serverWidget.SublistType.LIST
+                    type: serverWidget.SublistType.INLINEEDITOR
                 });
                 let urlFieldSO = list.addField({
                         id: 'custpage_sourl',
