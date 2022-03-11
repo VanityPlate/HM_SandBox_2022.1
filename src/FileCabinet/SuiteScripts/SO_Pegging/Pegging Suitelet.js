@@ -52,7 +52,7 @@ define(['N/ui/serverWidget'],
                     });
                 urlFieldSO.linkText = 'View';
                 list.addField({
-                    id: 'custpage_soNumber',
+                    id: 'custpage_sonumber',
                     type: serverWidget.FieldType.TEXT,
                     label: 'Sale Order'
                 });

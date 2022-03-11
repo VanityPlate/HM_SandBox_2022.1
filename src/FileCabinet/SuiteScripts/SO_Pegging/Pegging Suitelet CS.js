@@ -65,7 +65,7 @@ function(currentRecord, search, sAlert) {
             for(let x = 0; x < results.length; x++){
                 let lineInfo = results[x];
                 recordObject.selectNewLine({sublistId: 'custpage_orders_to_peg'});
-                recordObject.setCurrentSublistValue({sublistId: 'custpage_orders_to_peg', fieldId: 'custpage_soNumber', value: lineInfo.getValue({name: 'tranid'})});
+                recordObject.setCurrentSublistValue({sublistId: 'custpage_orders_to_peg', fieldId: 'custpage_sonumber', value: lineInfo.getValue({name: 'tranid'})});
                 recordObject.setCurrentSublistValue({sublistId: 'custpage_orders_to_peg', fieldId: 'custpage_customer', value: lineInfo.getValue({name: 'altname', join: 'customerMain'})});
                 recordObject.setCurrentSublistValue({sublistId: 'custpage_orders_to_peg', fieldId: 'custpage_date', value: lineInfo.getValue({name: 'datecreated'})});
                 recordObject.setCurrentSublistValue({sublistId: 'custpage_orders_to_peg', fieldId: 'custpage_quantity', value: lineInfo.getValue({name: 'formulanumeric'})});
