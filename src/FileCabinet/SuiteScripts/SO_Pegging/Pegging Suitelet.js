@@ -30,6 +30,16 @@ define(['N/ui/serverWidget'],
                     type: serverWidget.FieldType.SELECT,
                     source: 'item'
                 });
+                form.addField({
+                    id: 'custpage_total_planned',
+                    type: serverWidget.FieldType.INTEGER,
+                    label: 'Total Planned',
+                });
+                form.addField({
+                    id: 'custpage_total_pegged',
+                    type: serverWidget.FieldType.INTEGER,
+                    label: 'Total Pegged'
+                });
                 let list = form.addSublist({
                     id: 'custpage_orders_to_peg',
                     label: 'Orders',
@@ -38,11 +48,16 @@ define(['N/ui/serverWidget'],
                 let urlFieldSO = list.addField({
                         id: 'custpage_sourl',
                         type: serverWidget.FieldType.URL,
-                        label: 'SO#'
+                        label: 'View'
                     });
                 urlFieldSO.linkText = 'View';
                 list.addField({
-                    id: 'custpage_customerurl',
+                    id: 'custpage_soNumber',
+                    type: serverWidget.FieldType.TEXT,
+                    label: 'Sale Order'
+                });
+                list.addField({
+                    id: 'custpage_customer',
                     type: serverWidget.FieldType.TEXT,
                     label: 'Customer'
                 });
@@ -50,11 +65,6 @@ define(['N/ui/serverWidget'],
                     id: 'custpage_date',
                     type: serverWidget.FieldType.DATE,
                     label: 'Date'
-                });
-                list.addField({
-                    id: 'custpage_machine',
-                    type: serverWidget.FieldType.TEXT,
-                    label: 'Machine'
                 });
                 list.addField({
                     id: 'custpage_quantity',
