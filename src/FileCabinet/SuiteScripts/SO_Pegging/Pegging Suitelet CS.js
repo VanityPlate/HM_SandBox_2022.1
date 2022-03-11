@@ -163,7 +163,21 @@ function(currentRecord, search, sAlert) {
      * @since 2015.2
      */
     function fieldChanged(scriptContext) {
-
+        try{
+            //Refactor Testing
+            console.log('fieldChanged');
+            if(scriptContext.fieldId == 'custpage_select_assembly' && itemCurrent == null){
+                checkUserRequest();
+            }
+            else if(scriptContext.fieldId = 'custpage_select_assembly'){
+                itemCurrent = scriptContext.currentRecord.getValue({fieldId: 'custpage_select_assembly'});
+                clearLines();
+                setLines();
+            }
+        }
+        catch (e) {
+            console.log(e);
+        }
     }
 
     /**
@@ -177,19 +191,7 @@ function(currentRecord, search, sAlert) {
      * @since 2015.2
      */
     function postSourcing(scriptContext) {
-        try{
-            if(scriptContext.fieldId == 'custpage_select_assembly' && itemCurrent == null){
-                checkUserRequest();
-            }
-            else if(scriptContext.fieldId = 'custpage_select_assembly'){
-                itemCurrent = scriptContext.currentRecord.getValue({fieldId: 'custpage_select_assembly'});
-                clearLines();
-                setLines();
-            }
-        }
-        catch (e) {
-            console.log(e);
-        }
+
     }
 
     /**
@@ -295,9 +297,9 @@ function(currentRecord, search, sAlert) {
     }
 
     return {
-        pageInit: pageInit,
-        //fieldChanged: fieldChanged,
-        postSourcing: postSourcing,
+        //pageInit: pageInit,
+        fieldChanged: fieldChanged,
+        //postSourcing: postSourcing,
         //sublistChanged: sublistChanged,
         //lineInit: lineInit,
         //validateField: validateField,
