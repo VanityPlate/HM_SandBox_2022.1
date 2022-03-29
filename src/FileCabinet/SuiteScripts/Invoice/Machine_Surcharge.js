@@ -44,8 +44,17 @@ define(['N/search', 'N/record', './MS_Library', 'N/currentRecord'],
                     }
                     //Below before initial record save returns original date created
                     let dateCreated = Date.parse(recordObj.getValue({fieldId: 'createddate'}).toDateString());
+                    let datePrior = null;
+                    //Refactor Testing
+                    log.audit({title: 'Testing dates', details: dateCreated + ' ' + datePrior});
+                    try{
+                        datePrior = msLib.chargesById[itemId].datePrior;
+                    }
+                    catch (e) {
+                        //do nothing
+                    }
                     //Making sure dates are not prior to set date if
-                    if(msLib.chargesById[itemId].datePrior == null || dateCreated >= msLib.chargesById[itemId].datePrior) {          //Added 3/28/2022 Checking dates
+                    if(datePrior == null || dateCreated >= datePrior) {          //Added 3/28/2022 Checking dates
                         //Commented Out Saved for Testing
                         //log.audit({title: 'Item Class', details: itemClass});
                         //Working on per item basis
