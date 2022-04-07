@@ -8,7 +8,6 @@
  * @NModuleScope SameAccount
  */
 define(['N/currentRecord', 'N/log', 'N/record', 'N/search', 'N/ui/dialog', 'SuiteScripts/Help_Scripts/hm_sweet_alert_2.js'],
-
 function(currentRecord, log, record, search, dialog, sAlert) {
     
     /**
