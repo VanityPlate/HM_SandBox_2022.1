@@ -31,9 +31,7 @@ function(currentRecord, log, record, search, dialog, sAlert) {
      */
     async function fireMessages(recordObj){
         try{
-            const fakeSubs = await new Promise(resolve => {
-                return ['biscuit', 'egg', 'sausage'];
-            });
+            const fakeSubs =  ['biscuit', 'egg', 'sausage'];
             for(let x = 0; x < fakeSubs.length; x++){
                 await sAlert.fire(fakeSubs[x]);
             }
