@@ -25,6 +25,25 @@ function(currentRecord, log, record, search, dialog, sAlert) {
     }
 
     /**
+     * Defines function for testing firing of multiple concurrent messages and updating object with user input.
+     * @param{Record} recordObj
+     * @return null
+     */
+    async function fireMessages(recordObj){
+        try{
+            const fakeSubs = await new Promise(resolve => {
+                return ['biscuit', 'egg', 'sausage'];
+            });
+            for(let x = 0; x < fakeSubs.length; x++){
+                await sAlert.fire(fakeSubs[x]);
+            }
+        }
+        catch (e) {
+            log.error({title: 'Critical error in fireMessages', details: e});
+        }
+    }
+
+    /**
      * Function to be executed when field is changed.
      *
      * @param {Object} scriptContext
@@ -38,6 +57,9 @@ function(currentRecord, log, record, search, dialog, sAlert) {
      */
     function fieldChanged(scriptContext) {
         try{
+            if(scriptContext.fieldId == 'item'){
+                fireMessages(scriptContext.currentRecord);
+            }
 
         }
         catch (e) {
@@ -235,7 +257,7 @@ function(currentRecord, log, record, search, dialog, sAlert) {
 
     return {
         //pageInit: pageInit,
-        //fieldChanged: fieldChanged,
+        fieldChanged: fieldChanged,
         //postSourcing: postSourcing,
         //sublistChanged: sublistChanged,
         //lineInit: lineInit,
