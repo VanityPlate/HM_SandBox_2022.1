@@ -23,23 +23,6 @@ function(currentRecord, log, record, search, dialog, sAlert) {
 
     }
 
-    /**
-     * Defines function for testing firing of multiple concurrent messages and updating object with user input.
-     * @param{Record} recordObj
-     * @return null
-     */
-    async function fireMessages(recordObj){
-        try{
-            let updates;
-            const fakeSubs =  ['biscuit', 'egg', 'sausage'];
-            for(let x = 0; x < fakeSubs.length; x++){
-               updates = (await sAlert.fire(fakeSubs[x]));
-            }
-        }
-        catch (e) {
-            log.error({title: 'Critical error in fireMessages', details: e});
-        }
-    }
 
     /**
      * Function to be executed when field is changed.
@@ -56,7 +39,7 @@ function(currentRecord, log, record, search, dialog, sAlert) {
     function fieldChanged(scriptContext) {
         try{
             if(scriptContext.fieldId == 'item'){
-                fireMessages(scriptContext.currentRecord);
+                //fireMessages(scriptContext.currentRecord);
             }
 
         }
