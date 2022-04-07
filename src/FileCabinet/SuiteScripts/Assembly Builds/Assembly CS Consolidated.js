@@ -8,6 +8,7 @@
  * @NModuleScope SameAccount
  */
 define(['N/currentRecord', 'N/log', 'N/record', 'N/search', 'N/ui/dialog', 'SuiteScripts/Help_Scripts/hm_sweet_alert_2.js'],
+
 function(currentRecord, log, record, search, dialog, sAlert) {
     
     /**
@@ -24,24 +25,6 @@ function(currentRecord, log, record, search, dialog, sAlert) {
     }
 
     /**
-     * Defines function for testing firing of multiple concurrent messages and updating object with user input.
-     * @param{Record} recordObj
-     * @return null
-     */
-    async function fireMessages(recordObj){
-        try{
-            let updates;
-            const fakeSubs =  ['biscuit', 'egg', 'sausage'];
-            for(let x = 0; x < fakeSubs.length; x++){
-               updates = (await sAlert.fire(fakeSubs[x]));
-            }
-        }
-        catch (e) {
-            log.error({title: 'Critical error in fireMessages', details: e});
-        }
-    }
-
-    /**
      * Function to be executed when field is changed.
      *
      * @param {Object} scriptContext
@@ -54,15 +37,7 @@ function(currentRecord, log, record, search, dialog, sAlert) {
      * @since 2015.2
      */
     function fieldChanged(scriptContext) {
-        try{
-            if(scriptContext.fieldId == 'item'){
-                fireMessages(scriptContext.currentRecord);
-            }
 
-        }
-        catch (e) {
-            log.error({title: 'Critical error in fieldChanged', details: e});
-        }
     }
 
     /**
@@ -255,7 +230,7 @@ function(currentRecord, log, record, search, dialog, sAlert) {
 
     return {
         //pageInit: pageInit,
-        fieldChanged: fieldChanged,
+        //fieldChanged: fieldChanged,
         //postSourcing: postSourcing,
         //sublistChanged: sublistChanged,
         //lineInit: lineInit,
