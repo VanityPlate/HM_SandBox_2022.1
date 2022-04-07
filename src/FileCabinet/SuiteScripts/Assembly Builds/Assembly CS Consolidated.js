@@ -7,9 +7,9 @@
  * @NScriptType ClientScript
  * @NModuleScope SameAccount
  */
-define(['N/currentRecord', 'N/log', 'N/record', 'N/search', 'N/ui/dialog', 'SuiteScripts/Help_Scripts/hm_sweet_alert_2.js'],
+define(['N/currentRecord', 'N/log', 'N/record', 'N/search', 'N/ui/dialog'],
 
-function(currentRecord, log, record, search, dialog, sAlert) {
+function(currentRecord, log, record, search, dialog) {
     
     /**
      * Function to be executed after page is initialized.
