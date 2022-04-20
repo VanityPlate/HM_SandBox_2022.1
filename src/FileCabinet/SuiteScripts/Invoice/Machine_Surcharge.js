@@ -86,6 +86,8 @@ define(['N/search', 'N/record', './MS_Library', 'N/currentRecord'],
                                 fieldId: 'quantity',
                                 line: x
                             });
+                            //Refactor Testing
+                            log.audit({title: 'itemDollarSur', details: quantity + ' ' + itemDollarSur});
                             surcharge += itemDollarSur * quantity;
                         }
                         //Working on per item basis
@@ -93,7 +95,7 @@ define(['N/search', 'N/record', './MS_Library', 'N/currentRecord'],
                         else if (itemSur != null && itemSur != NaN && itemSur > 0) {
                             let total = recordObj.getSublistValue({sublistId: 'item', fieldId: 'amount', line: x});
                             //Commented Out Saved for Testing
-                            //log.audit({title: 'test total id', details: total});
+                            log.audit({title: 'test total id', details: total});
                             surcharge += itemSur * total;
                         }
                         //Working with flat rate on items
@@ -103,6 +105,8 @@ define(['N/search', 'N/record', './MS_Library', 'N/currentRecord'],
                                 fieldId: 'quantity',
                                 line: x
                             });
+                            //Refactor Testing
+                            log.audit({title: 'classDollarSur', details: quantity + ' ' + classDollarSur});
                             surcharge += classDollarSur * quantity;
                         }
                         //Working on per item_class basis
@@ -110,7 +114,7 @@ define(['N/search', 'N/record', './MS_Library', 'N/currentRecord'],
                         else if (classSur != null && classSur != NaN && classSur > 0) {
                             let total = recordObj.getSublistValue({sublistId: 'item', fieldId: 'amount', line: x});
                             //Commented Out Saved for Testing
-                            //log.audit({title: 'test total class', details: total});
+                            log.audit({title: 'test total class', details: total});
                             surcharge += classSur * total;
                         }
                         //Commented Out Saved for Testing
