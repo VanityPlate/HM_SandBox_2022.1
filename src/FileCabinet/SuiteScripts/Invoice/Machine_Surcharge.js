@@ -28,6 +28,9 @@ define(['N/search', 'N/record', './MS_Library', 'N/currentRecord'],
 
             try{
                 let recordObj = scriptContext.newRecord;
+                let discountRate = recordObj.getValue({fieldId: 'discountrate'});
+                //Refactor Testing
+                log.audit({title: 'discountRate', details: discountRate});
                 let surcharge = 0.0;
                 let lines = recordObj.getLineCount({sublistId: 'item'});
                 for(let x = 0; x < lines; x++){
