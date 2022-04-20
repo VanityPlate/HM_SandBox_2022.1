@@ -46,8 +46,8 @@ define(['N/search', 'N/record', './MS_Library', 'N/currentRecord'],
                     });
                     //Refactor Testing
                     log.audit({title: 'itemFields', details: itemFields});
-                    itemDollarSur = itemFields.custitem_item_surcharge;
-                    itemSur = itemFields.custitem_item_surcharge_dollar;
+                    itemDollarSur = parseFloat(itemFields.custitem_item_surcharge);
+                    itemSur = parseFloat(itemFields.custitem_item_surcharge_dollar);
                     try{
                         itemClass = search.lookupFields({
                             type: search.Type.ITEM,
@@ -66,8 +66,8 @@ define(['N/search', 'N/record', './MS_Library', 'N/currentRecord'],
                         });
                         //Refactor Testing
                         log.audit({title: 'classResults', details: classResults});
-                        classDollarSur = classResults.custrecord_class_surcharge_dol;
-                        classSur = classResults.custrecord_class_surcharge;
+                        classDollarSur = parseFloat(classResults.custrecord_class_surcharge_dol);
+                        classSur = parseFloat(classResults.custrecord_class_surcharge);
                     }
                     //Below before initial record save returns original date created
                     let dateCreated = Date.parse(recordObj.getValue({fieldId: 'createddate'}).toDateString());
@@ -77,16 +77,8 @@ define(['N/search', 'N/record', './MS_Library', 'N/currentRecord'],
                     if(dateDependent == false || dateCreated >= msLib.DATEREF) {          //Added 3/28/2022 Checking dates
                         //Commented Out Saved for Testing
                         //log.audit({title: 'Item Class', details: itemClass});
-                        //Working on per item basis
-                        //Working with percent increase on items
-                        if (itemSur != null && itemSur > 0) {
-                            let total = recordObj.getSublistValue({sublistId: 'item', fieldId: 'amount', line: x});
-                            //Commented Out Saved for Testing
-                            //log.audit({title: 'test total id', details: total});
-                            surcharge += itemSur * total;
-                        }
                         //Working with flat rate on items
-                        else if(itemDollarSur != null && itemDollarSur > 0){
+                        if(itemDollarSur != null && itemDollarSur > 0){
                             let quantity = recordObj.getSublistValue({
                                 sublistId: 'item',
                                 fieldId: 'quantity',
@@ -94,13 +86,13 @@ define(['N/search', 'N/record', './MS_Library', 'N/currentRecord'],
                             });
                             surcharge += itemDollarSur * quantity;
                         }
-                        //Working on per item_class basis
+                        //Working on per item basis
                         //Working with percent increase on items
-                        else if (classSur != null && classSur > 0) {
+                        else if (itemSur != null && itemSur > 0) {
                             let total = recordObj.getSublistValue({sublistId: 'item', fieldId: 'amount', line: x});
                             //Commented Out Saved for Testing
-                            //log.audit({title: 'test total class', details: total});
-                            surcharge += classSur * total;
+                            //log.audit({title: 'test total id', details: total});
+                            surcharge += itemSur * total;
                         }
                         //Working with flat rate on items
                         else if (classDollarSur != null && classDollarSur > 0){
@@ -110,6 +102,14 @@ define(['N/search', 'N/record', './MS_Library', 'N/currentRecord'],
                                 line: x
                             });
                             surcharge += classDollarSur * quantity;
+                        }
+                        //Working on per item_class basis
+                        //Working with percent increase on items
+                        else if (classSur != null && classSur > 0) {
+                            let total = recordObj.getSublistValue({sublistId: 'item', fieldId: 'amount', line: x});
+                            //Commented Out Saved for Testing
+                            //log.audit({title: 'test total class', details: total});
+                            surcharge += classSur * total;
                         }
                         //Commented Out Saved for Testing
                         //log.audit({title: 'Running Surcharge Total', details: surcharge});
