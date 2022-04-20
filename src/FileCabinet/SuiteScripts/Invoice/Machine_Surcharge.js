@@ -62,7 +62,7 @@ define(['N/search', 'N/record', './MS_Library', 'N/currentRecord'],
                         let classResults = search.lookupFields({
                             type: search.Type.CLASSIFICATION,
                             id: itemClass,
-                            columns: ['custrecord_class_surcharge_dollar_value', 'custrecord_class_surcharge']
+                            columns: ['custrecord_class_surcharge_dol', 'custrecord_class_surcharge']
                         });
                         //Refactor Testing
                         log.audit({title: 'classResults', details: classResults});
