@@ -46,8 +46,8 @@ define(['N/search', 'N/record', './MS_Library', 'N/currentRecord'],
                     });
                     //Refactor Testing
                     log.audit({title: 'itemFields', details: itemFields});
-                    itemDollarSur = parseFloat(itemFields.custitem_item_surcharge);
-                    itemSur = parseFloat(itemFields.custitem_item_surcharge_dollar);
+                    itemDollarSur = parseFloat(itemFields.custitem_item_surcharge).toFixed(2);
+                    itemSur = parseFloat(itemFields.custitem_item_surcharge_dollar).toFixed(2);
                     try{
                         itemClass = search.lookupFields({
                             type: search.Type.ITEM,
@@ -66,8 +66,8 @@ define(['N/search', 'N/record', './MS_Library', 'N/currentRecord'],
                         });
                         //Refactor Testing
                         log.audit({title: 'classResults', details: classResults});
-                        classDollarSur = parseFloat(classResults.custrecord_class_surcharge_dol);
-                        classSur = parseFloat(classResults.custrecord_class_surcharge);
+                        classDollarSur = parseFloat(classResults.custrecord_class_surcharge_dol).toFixed(2);
+                        classSur = parseFloat(classResults.custrecord_class_surcharge).toFixed(2);
                     }
                     //Below before initial record save returns original date created
                     let dateCreated = Date.parse(recordObj.getValue({fieldId: 'createddate'}).toDateString());
