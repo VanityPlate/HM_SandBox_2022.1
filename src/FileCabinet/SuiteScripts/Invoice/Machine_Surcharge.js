@@ -80,7 +80,7 @@ define(['N/search', 'N/record', './MS_Library', 'N/currentRecord'],
                         //Commented Out Saved for Testing
                         //log.audit({title: 'Item Class', details: itemClass});
                         //Working with flat rate on items
-                        if(itemDollarSur != null && itemDollarSur > 0){
+                        if(itemDollarSur != null && itemDollarSur != NaN && itemDollarSur > 0){
                             let quantity = recordObj.getSublistValue({
                                 sublistId: 'item',
                                 fieldId: 'quantity',
@@ -90,14 +90,14 @@ define(['N/search', 'N/record', './MS_Library', 'N/currentRecord'],
                         }
                         //Working on per item basis
                         //Working with percent increase on items
-                        else if (itemSur != null && itemSur > 0) {
+                        else if (itemSur != null && itemSur != NaN && itemSur > 0) {
                             let total = recordObj.getSublistValue({sublistId: 'item', fieldId: 'amount', line: x});
                             //Commented Out Saved for Testing
                             //log.audit({title: 'test total id', details: total});
                             surcharge += itemSur * total;
                         }
                         //Working with flat rate on items
-                        else if (classDollarSur != null && classDollarSur > 0){
+                        else if (classDollarSur != null && classDollarSur != NaN && classDollarSur > 0){
                             let quantity = recordObj.getSublistValue({
                                 sublistId: 'item',
                                 fieldId: 'quantity',
@@ -107,7 +107,7 @@ define(['N/search', 'N/record', './MS_Library', 'N/currentRecord'],
                         }
                         //Working on per item_class basis
                         //Working with percent increase on items
-                        else if (classSur != null && classSur > 0) {
+                        else if (classSur != null && classSur != NaN && classSur > 0) {
                             let total = recordObj.getSublistValue({sublistId: 'item', fieldId: 'amount', line: x});
                             //Commented Out Saved for Testing
                             //log.audit({title: 'test total class', details: total});
