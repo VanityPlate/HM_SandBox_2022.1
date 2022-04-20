@@ -69,6 +69,8 @@ define(['N/search', 'N/record', './MS_Library', 'N/currentRecord'],
                         classDollarSur = parseFloat(classResults.custrecord_class_surcharge_dol).toFixed(2);
                         classSur = parseFloat(classResults.custrecord_class_surcharge).toFixed(2);
                     }
+                    //Refactor Testing
+                    log.audit({title: 'item % Dollar class % Dollar', details: itemSur + ' ' + itemDollarSur + ' ' + classSur+ ' ' + classDollarSur});
                     //Below before initial record save returns original date created
                     let dateCreated = Date.parse(recordObj.getValue({fieldId: 'createddate'}).toDateString());
                     let dateDependent = new Set(msLib.itemsDateDependent);
