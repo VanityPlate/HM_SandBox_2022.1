@@ -15,7 +15,7 @@ define([],
     () => {
 
         //Updated 3/28/2022
-        const DATEREF = new Date.parse(new Date(2022, 1, 1));
+        const DATEREF = Date.parse(new Date(2022, 1, 1));
         //Items in this array are dependent on the above date
         const itemsDateDependent = [15223, 15220, 15225, 15221, 15224, 15222];
 
