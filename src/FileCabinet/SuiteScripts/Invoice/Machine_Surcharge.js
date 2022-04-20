@@ -66,8 +66,8 @@ define(['N/search', 'N/record', './MS_Library', 'N/currentRecord'],
                         });
                         //Refactor Testing
                         log.audit({title: 'classResults', details: classResults});
-                        classDollarSur = classResults.custrecord_class_surcharge_dollar_value[0].value;
-                        classSur = classResults.custrecord_class_surcharge[0].value;
+                        classDollarSur = classResults.custrecord_class_surcharge_dol;
+                        classSur = classResults.custrecord_class_surcharge;
                     }
                     //Below before initial record save returns original date created
                     let dateCreated = Date.parse(recordObj.getValue({fieldId: 'createddate'}).toDateString());
