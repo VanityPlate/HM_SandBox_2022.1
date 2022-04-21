@@ -49,8 +49,8 @@ define(['N/search', 'N/record', './MS_Library', 'N/currentRecord'],
                     });
                     //Refactor Testing
                     log.audit({title: 'itemFields', details: itemFields});
-                    itemDollarSur = parseFloat(itemFields.custitem_item_surcharge).toFixed(2);
-                    itemSur = parseFloat(itemFields.custitem_item_surcharge_dollar).toFixed(2);
+                    itemSur = parseFloat(itemFields.custitem_item_surcharge).toFixed(2);
+                    itemDollarSur = parseFloat(itemFields.custitem_item_surcharge_dollar).toFixed(2);
                     try{
                         itemClass = search.lookupFields({
                             type: search.Type.ITEM,
