@@ -137,7 +137,7 @@ define(['N/search', 'N/record', './MS_Library', 'N/currentRecord'],
                         //log.audit({title: 'Running Surcharge Total', details: surcharge});
                     }
                 }
-                let recordType = recordObj.getValue({fieldId: 'recordType'});
+                let recordType = recordObj.getValue({fieldId: 'baserecordtype'});
                 //Refactor Testing
                 log.audit({title: 'Testing type and surcharge', details: recordType + ' ' + surcharge});
                 if(surcharge > 0){
