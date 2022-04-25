@@ -86,17 +86,25 @@ define(['N/search', 'N/record', './MS_Library', 'N/currentRecord'],
                                 fieldId: 'quantity',
                                 line: x
                             });
-                            //Refactor Testing
-                            log.audit({title: 'itemDollarSur', details: quantity + ' ' + itemDollarSur});
-                            surcharge += itemDollarSur * quantity;
+                            //Saved for testing
+                            //log.audit({title: 'itemDollarSur', details: quantity + ' ' + itemDollarSur});
+                            let moreCharge = itemDollarSur * quantity;
+                            recordObj.selectLine({sublistId: 'item', line: x});
+                            recordObj.setCurrentSublistValue({sublistId: 'item', fieldId: 'custcol_line_surcharge', value: moreCharge});
+                            recordObj.commitLine({sublistId: 'item'});
+                            surcharge += moreCharge;
                         }
                         //Working on per item basis
                         //Working with percent increase on items
                         else if (itemSur != null && itemSur != NaN && itemSur > 0) {
                             let total = recordObj.getSublistValue({sublistId: 'item', fieldId: 'amount', line: x});
                             //Commented Out Saved for Testing
-                            log.audit({title: 'test total id', details: total});
-                            surcharge += itemSur * total;
+                            //log.audit({title: 'test total id', details: total});
+                            let moreCharge = itemSur * total;
+                            recordObj.selectLine({sublistId: 'item', line: x});
+                            recordObj.setCurrentSublistValue({sublistId: 'item', fieldId: 'custcol_line_surcharge', value: moreCharge});
+                            recordObj.commitLine({sublistId: 'item'});
+                            surcharge += moreCharge;
                         }
                         //Working with flat rate on items
                         else if (classDollarSur != null && classDollarSur != NaN && classDollarSur > 0){
@@ -105,31 +113,49 @@ define(['N/search', 'N/record', './MS_Library', 'N/currentRecord'],
                                 fieldId: 'quantity',
                                 line: x
                             });
-                            //Refactor Testing
-                            log.audit({title: 'classDollarSur', details: quantity + ' ' + classDollarSur});
-                            surcharge += classDollarSur * quantity;
+                            //Saved For Testing
+                            //log.audit({title: 'classDollarSur', details: quantity + ' ' + classDollarSur});
+                            let moreCharge = classDollarSur * quantity;
+                            recordObj.selectLine({sublistId: 'item', line: x});
+                            recordObj.setCurrentSublistValue({sublistId: 'item', fieldId: 'custcol_line_surcharge', value: moreCharge});
+                            recordObj.commitLine({sublistId: 'item'});
+                            surcharge += moreCharge;
                         }
                         //Working on per item_class basis
                         //Working with percent increase on items
                         else if (classSur != null && classSur != NaN && classSur > 0) {
                             let total = recordObj.getSublistValue({sublistId: 'item', fieldId: 'amount', line: x});
                             //Commented Out Saved for Testing
-                            log.audit({title: 'test total class', details: total});
-                            surcharge += classSur * total;
+                            //log.audit({title: 'test total class', details: total});
+                            let moreCharge = classSur * total;
+                            recordObj.selectLine({sublistId: 'item', line: x});
+                            recordObj.setCurrentSublistValue({sublistId: 'item', fieldId: 'custcol_line_surcharge', value: moreCharge});
+                            recordObj.commitLine({sublistId: 'item'});
+                            surcharge += moreCharge;
                         }
                         //Commented Out Saved for Testing
                         //log.audit({title: 'Running Surcharge Total', details: surcharge});
                     }
                 }
                 if(surcharge > 0){
-                    let discount = recordObj.getValue({fieldId: 'discounttotal'});
-                    recordObj.selectNewLine({sublistId: 'item'})
-                    recordObj.setCurrentSublistValue({sublistId: 'item', fieldId: 'quantity', value: 1});
-                    recordObj.setCurrentSublistValue({sublistId: 'item', fieldId: 'item', value: msLib.surchargeItem});
-                    recordObj.setCurrentSublistValue({sublistId: 'item', fieldId: 'amount', value: surcharge});
-                    recordObj.commitLine({sublistId: 'item'});
-                    recordObj.setValue({fieldId: 'discountrate', value: discount});
-                    recordObj.setValue({fieldId: 'discounttotal', value: discount});
+                    if(recordObj.getValue({fieldId: 'recordType'}) == 'salesorder'){
+                        recordObj.setValue({fieldId: 'custbody_totalsurcharge', value: surcharge});
+                    }
+                    if(recordObj.getValue({fieldId: 'recordType'}) == 'invoice'){
+                        recordObj.setValue({fieldId: 'custbody_totalsurcharge', value: surcharge});
+                        let discount = recordObj.getValue({fieldId: 'discounttotal'});
+                        recordObj.selectNewLine({sublistId: 'item'})
+                        recordObj.setCurrentSublistValue({sublistId: 'item', fieldId: 'quantity', value: 1});
+                        recordObj.setCurrentSublistValue({
+                            sublistId: 'item',
+                            fieldId: 'item',
+                            value: msLib.surchargeItem
+                        });
+                        recordObj.setCurrentSublistValue({sublistId: 'item', fieldId: 'amount', value: surcharge});
+                        recordObj.commitLine({sublistId: 'item'});
+                        recordObj.setValue({fieldId: 'discountrate', value: discount});
+                        recordObj.setValue({fieldId: 'discounttotal', value: discount});
+                    }
                 }
             }
             catch (e) {
