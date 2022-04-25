@@ -44,8 +44,8 @@ define(['N/search', 'N/record', './MS_Library', 'N/currentRecord'],
                         id: itemId,
                         columns: ['custitem_item_surcharge', 'custitem_item_surcharge_dollar']
                     });
-                    //Refactor Testing
-                    log.audit({title: 'itemFields', details: itemFields});
+                    //Left For Testing
+                    //log.audit({title: 'itemFields', details: itemFields});
                     itemSur = parseFloat(itemFields.custitem_item_surcharge).toFixed(2);
                     itemDollarSur = parseFloat(itemFields.custitem_item_surcharge_dollar).toFixed(2);
                     try{
@@ -69,8 +69,8 @@ define(['N/search', 'N/record', './MS_Library', 'N/currentRecord'],
                         classDollarSur = parseFloat(classResults.custrecord_class_surcharge_dol).toFixed(2);
                         classSur = parseFloat(classResults.custrecord_class_surcharge).toFixed(2);
                     }
-                    //Refactor Testing
-                    log.audit({title: 'item % Dollar class % Dollar', details: itemSur + ' ' + itemDollarSur + ' ' + classSur+ ' ' + classDollarSur});
+                    //Left for Testing
+                    //log.audit({title: 'item % Dollar class % Dollar', details: itemSur + ' ' + itemDollarSur + ' ' + classSur+ ' ' + classDollarSur});
                     //Below before initial record save returns original date created
                     let dateCreated = Date.parse(recordObj.getValue({fieldId: 'createddate'}).toDateString());
                     let dateDependent = new Set(msLib.itemsDateDependent);
@@ -137,14 +137,17 @@ define(['N/search', 'N/record', './MS_Library', 'N/currentRecord'],
                         //log.audit({title: 'Running Surcharge Total', details: surcharge});
                     }
                 }
+                let recordType = recordObj.getValue({fieldId: 'recordType'});
+                //Refactor Testing
+                log.audit({title: 'Testing type and surcharge', details: recordType + ' ' + surcharge});
                 if(surcharge > 0){
-                    if(recordObj.getValue({fieldId: 'recordType'}) == 'salesorder'){
+                    if(recordType == 'salesorder'){
                         recordObj.setValue({fieldId: 'custbody_totalsurcharge', value: surcharge});
                     }
-                    if(recordObj.getValue({fieldId: 'recordType'}) == 'invoice'){
+                    if(recordType == 'invoice'){
                         recordObj.setValue({fieldId: 'custbody_totalsurcharge', value: surcharge});
                         let discount = recordObj.getValue({fieldId: 'discounttotal'});
-                        recordObj.selectNewLine({sublistId: 'item'})
+                        recordObj.selectNewLine({sublistId: 'item'});
                         recordObj.setCurrentSublistValue({sublistId: 'item', fieldId: 'quantity', value: 1});
                         recordObj.setCurrentSublistValue({
                             sublistId: 'item',
