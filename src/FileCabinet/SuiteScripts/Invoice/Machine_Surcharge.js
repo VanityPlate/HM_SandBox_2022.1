@@ -31,7 +31,7 @@ define(['N/search', 'N/record', './MS_Library', 'N/currentRecord'],
                 let recordType = recordObj.getValue({fieldId: 'baserecordtype'});
                 let total = recordObj.getValue({fieldId: 'total'});
                 let totalSurcharge = recordObj.getValue({fieldId: 'custbody_totalsurcharge'});
-                if(recordType == 'salesorder' && total <= 0 && totalSurcharge > 0){ //Refactor Testing
+                if(recordType == 'salesorder' && total <= 0 && totalSurcharge >= 0){ //Refactor Testing
                     recordObj.setValue({fieldId: 'custbody_totalsurcharge', value: '0'});
                     let lines = recordObj.getLineCount({sublistId: 'item'});
                     for(let x = 0; x < lines; x++){
