@@ -71,6 +71,7 @@ define(['N/search', 'N/record', './MS_Library', 'N/currentRecord'],
                     }
                     //Left for Testing
                     //log.audit({title: 'item % Dollar class % Dollar', details: itemSur + ' ' + itemDollarSur + ' ' + classSur+ ' ' + classDollarSur});
+                    log.audit({title: 'testing date field', details: recordObj.getValue({fieldId: 'createddate'}) + ' ' + recordObj.getValue({fieldId: 'recordcreateddate'})});
                     //Below before initial record save returns original date created
                     let dateCreated = Date.parse(recordObj.getValue({fieldId: 'createddate'}).toDateString());
                     let dateDependent = new Set(msLib.itemsDateDependent);
